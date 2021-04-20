@@ -42,14 +42,11 @@ class FTX(object):
             time.sleep(1)
         print("[WARN] YOUR {coin} is 0.".format(coin=coin))
 
-    def run(self):
+    def run(self, markets):
         stop_event = threading.Event()
         threads = []
 
-        coins = ["DOGE", "BTC"]
-        self.markets = [{"coin": "DOGE", "price": 0.1, "msg": "DOGE to $1"},
-                        {"coin": "BTC", "price": 50000, "msg": "BTC to $1,000,000"}]
-
+        self.markets = markets
         for market in self.markets:
             threads.append(self.func_to_be_threaded(stop_event, market["coin"]))
 
@@ -67,5 +64,8 @@ class FTX(object):
 
 
 if __name__ == '__main__':
+    markets = [{"coin": "DOGE", "price": 0.1, "msg": "DOGE to $1"},
+               {"coin": "BTC", "price": 50000, "msg": "BTC to $1,000,000"}]
+
     ftx = FTX()
-    ftx.run()
+    ftx.run(markets)
